@@ -1,6 +1,8 @@
 # Fixtures loader
 Tool to help manage fixtures in a PHP project
 
+[![Build Status](https://travis-ci.org/tarnawski/fixture.svg?branch=master)](https://travis-ci.org/tarnawski/fixture)
+
 ## Installation
 ```bash
 $ composer require tarnawski/fixtures
