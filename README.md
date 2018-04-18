@@ -1,4 +1,4 @@
-# Fixture
+# Fixtures loader
 Tool to help manage fixtures in a PHP project
 
 ## Installation

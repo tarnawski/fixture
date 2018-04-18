@@ -11,6 +11,7 @@ services:
   fixture.parser.xml_parser:
     class: Fixture\Parser\XMLParser
 
+  #TODO Move database pass to configuration
   fixture.driver.pdo_driver:
     class: Fixture\Driver\PDODriver
     arguments:
