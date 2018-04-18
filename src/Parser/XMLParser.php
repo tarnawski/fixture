@@ -27,7 +27,7 @@ class XMLParser implements ParserInterface
         }
 
         $data = json_encode($data);
-        $data = json_decode($data, TRUE);
+        $data = json_decode($data, true);
 
         if ($data === null) {
             throw new FixtureParserException('Invalid XML file!');

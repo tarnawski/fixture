@@ -54,6 +54,5 @@ class FixtureCommand extends Command
         $this->driver->load($data);
 
         $output->writeln('Load finished!');
-
     }
 }
