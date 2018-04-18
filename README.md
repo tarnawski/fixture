@@ -65,18 +65,22 @@ $fixtureBuilder->load('fixtures/document.json');
 ```
 
 ## Usage with Symfony
-1. Enable the Bundle
+1. Enable the Bundle:
 ```php
 $bundles = array(
     new Fixture\Bridge\Symfony\FixtureBundle(),
 );
 
 ```
-2. Configure the Bundle
+2. Configure the Bundle:
 ```yaml
 fixture:
     path: '%kernel.project_dir%/fixtures/document.json'
     loader: 'file'
     parser: 'json'
     driver: 'pdo'
+```
+3. Run command:
+```bash
+php bin/console fixture:load
 ```
