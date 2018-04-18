@@ -1,0 +1,69 @@
+parameters:
+  fixture_path: document.yaml
+  fixture_loader: file
+  fixture_parser: yaml
+  fixture_driver: pdo
+
+services:
+  fixture.loader.file_loader:
+    class: Fixture\Loader\FileLoader
+
+  fixture.parser.json_parser:
+    class: Fixture\Parser\JSONParser
+
+  fixture.parser.yaml_parser:
+    class: Fixture\Parser\YAMLParser
+
+  fixture.parser.xml_parser:
+    class: Fixture\Parser\XMLParser
+
+  fixture.driver.pdo_driver:
+    class: Fixture\Driver\PDODriver
+
+  fixture.factory.loader_factory:
+    class: Fixture\LoaderFactory
+    arguments:
+      - '@fixture.loader.file_loader'
+
+  fixture.factory.parser_factory:
+    class: Fixture\ParserFactory
+    arguments:
+      - '@fixture.parser.yaml_parser'
+      - '@fixture.parser.json_parser'
+      - '@fixture.parser.xml_parser'
+
+  fixture.factory.driver_factory:
+    class: Fixture\ParserFactory
+    arguments:
+      - '@fixture.driver.pdo_driver'
+
+  fixture.loader:
+      class:  Fixture\LoaderInterface
+      factory_service: fixture.factory.loader_factory
+      factory_method: getLoader
+      arguments:
+          - "@fixture_loader"
+
+  fixture.parser:
+      class:  Fixture\ParserInterface
+      factory_service: fixture.factory.parser_factory
+      factory_method: getParser
+      arguments:
+          - "@fixture_parser"
+
+  fixture.driver:
+      class:  Fixture\DriverInterface
+      factory_service: fixture.factory.driver_factory
+      factory_method: getDriver
+      arguments:
+          - "@fixture_driver
+
+  fixture.command.fixture_command:
+    class: Fixture\Bridge\Symfony\Command\FixtureCommand
+    arguments:
+      - '@fixture_path'
+      - '@fixture.loader'
+      - '@fixture.parser'
+      - '@fixture.driver'
+    tags:
+      - { name: console.command }

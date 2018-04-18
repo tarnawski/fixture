@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fixtures>
+    <document>
+        <id>1</id>
+        <name>Secret document</name>
+        <status>draft</status>
+    </document>
+    <document>
+        <id>2</id>
+        <name>Other document</name>
+        <status>published</status>
+    </document>
+</fixtures>

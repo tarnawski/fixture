@@ -1,0 +1,7 @@
+document:
+  - id: 1
+    name: Secret document
+    status: draft
+  - id: 2
+    name: Other document
+    status: published

@@ -1,0 +1,22 @@
+version: '2'
+services:
+  php:
+    container_name: fixture_php
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+    links:
+      - mysql
+    working_dir: /var/www/html
+  mysql:
+      container_name: fixture_mysql
+      image: mysql:5.7
+      environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: fixture
+          MYSQL_USER: admin
+          MYSQL_PASSWORD: secret
+      ports:
+          - "3306:3306"
