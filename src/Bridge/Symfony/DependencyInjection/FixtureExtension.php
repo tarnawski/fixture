@@ -1,6 +1,6 @@
 <?php
 
-namespace LogViewerBundle\DependencyInjection;
+namespace Fixture\Bridge\Symfony\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -13,10 +13,10 @@ class FixtureExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-        $container->setParameter('fixtures.path', $config['path']);
-        $container->setParameter('fixtures.loader', $config['loader']);
-        $container->setParameter('fixtures.parser', $config['parser']);
-        $container->setParameter('fixtures.driver', $config['driver']);
+        $container->setParameter('fixture_path', $config['path']);
+        $container->setParameter('fixture_loader', $config['loader']);
+        $container->setParameter('fixture_parser', $config['parser']);
+        $container->setParameter('fixture_driver', $config['driver']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

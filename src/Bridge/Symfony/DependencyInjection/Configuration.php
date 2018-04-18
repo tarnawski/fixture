@@ -1,6 +1,6 @@
 <?php
 
-namespace LogViewerBundle\DependencyInjection;
+namespace Fixture\Bridge\Symfony\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\ScalarNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -11,38 +11,23 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('log_viewer');
+        $rootNode = $treeBuilder->root('fixture');
         $rootNode
             ->children()
-            ->arrayNode('logs')
-            ->useAttributeAsKey('log')
-            ->normalizeKeys(false)
-            ->prototype('array')
-            ->append($this->getPath())
-            ->append($this->getMethod())
-            ->end()
-            ->end()
-            ->integerNode('max_tail')->end()
+                ->scalarNode('path')
+                    ->defaultValue('default')
+                ->end()
+                ->scalarNode('loader')
+                    ->defaultValue('file')
+                ->end()
+                ->scalarNode('parser')
+                    ->defaultValue('yaml')
+                ->end()
+                ->scalarNode('driver')
+                    ->defaultValue('pdo')
+                ->end()
             ->end()
         ;
         return $treeBuilder;
-    }
-    private function getPath()
-    {
-        $node = new ScalarNodeDefinition('path');
-        $node
-            ->defaultValue(null)
-            ->end()
-        ;
-        return $node;
-    }
-    private function getMethod()
-    {
-        $node = new ScalarNodeDefinition('method');
-        $node
-            ->defaultValue(null)
-            ->end()
-        ;
-        return $node;
     }
 }

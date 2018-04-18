@@ -1,9 +1,3 @@
-parameters:
-  fixture_path: document.yaml
-  fixture_loader: file
-  fixture_parser: yaml
-  fixture_driver: pdo
-
 services:
   fixture.loader.file_loader:
     class: Fixture\Loader\FileLoader
@@ -19,6 +13,12 @@ services:
 
   fixture.driver.pdo_driver:
     class: Fixture\Driver\PDODriver
+    arguments:
+      - "fixture"
+      - "172.22.0.2"
+      - "3306"
+      - "admin"
+      - "secret"
 
   fixture.factory.loader_factory:
     class: Fixture\LoaderFactory
@@ -33,37 +33,34 @@ services:
       - '@fixture.parser.xml_parser'
 
   fixture.factory.driver_factory:
-    class: Fixture\ParserFactory
+    class: Fixture\DriverFactory
     arguments:
       - '@fixture.driver.pdo_driver'
 
   fixture.loader:
-      class:  Fixture\LoaderInterface
-      factory_service: fixture.factory.loader_factory
-      factory_method: getLoader
-      arguments:
-          - "@fixture_loader"
+    class:  Fixture\LoaderInterface
+    factory: 'fixture.factory.loader_factory:getLoader'
+    arguments:
+        - "%fixture_loader%"
 
   fixture.parser:
-      class:  Fixture\ParserInterface
-      factory_service: fixture.factory.parser_factory
-      factory_method: getParser
-      arguments:
-          - "@fixture_parser"
+    class:  Fixture\ParserInterface
+    factory: 'fixture.factory.parser_factory:getParser'
+    arguments:
+        - "%fixture_parser%"
 
   fixture.driver:
-      class:  Fixture\DriverInterface
-      factory_service: fixture.factory.driver_factory
-      factory_method: getDriver
-      arguments:
-          - "@fixture_driver
+    class:  Fixture\DriverInterface
+    factory: 'fixture.factory.driver_factory:getDriver'
+    arguments:
+        - "%fixture_driver%"
 
   fixture.command.fixture_command:
     class: Fixture\Bridge\Symfony\Command\FixtureCommand
     arguments:
-      - '@fixture_path'
       - '@fixture.loader'
       - '@fixture.parser'
       - '@fixture.driver'
+      - '%fixture_path%'
     tags:
-      - { name: console.command }
+      - { name: 'console.command', command: 'fixture:load' }
